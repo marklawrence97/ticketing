@@ -1,11 +1,12 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import mongoose, {mongo} from 'mongoose';
+import mongoose from 'mongoose';
 import { app } from "../app";
 
 let mongo: any;
 beforeAll(async () => {
     mongo = new MongoMemoryServer();
     const mongoUri = await mongo.getUri();
+    process.env.JWT_KEY = "test_key"
 
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true,
