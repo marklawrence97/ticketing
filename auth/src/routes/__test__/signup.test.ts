@@ -40,3 +40,13 @@ it("returns a 400 when password is too short", async () => {
         })
         .expect(400)
 })
+
+it("returns a 400 with missing email and password", async () => {
+    return request(app)
+        .post('/api/users/signup')
+        .send({
+            email: "",
+            password: ""
+        })
+        .expect(400)
+})
