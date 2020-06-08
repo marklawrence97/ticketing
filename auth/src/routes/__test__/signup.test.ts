@@ -18,7 +18,7 @@ it("returns a 400 with an invalid email", async () => {
             email: "test",
             password: "password"
         })
-        .expect(400)
+        .expect(400);
 })
 
 it("returns a 400 when password is too long", async () => {
@@ -28,7 +28,7 @@ it("returns a 400 when password is too long", async () => {
             email: "test",
             password: "passwordivnkjndfkjndkfjn"
         })
-        .expect(400)
+        .expect(400);
 })
 
 it("returns a 400 when password is too short", async () => {
@@ -38,7 +38,7 @@ it("returns a 400 when password is too short", async () => {
             email: "test",
             password: "pa"
         })
-        .expect(400)
+        .expect(400);
 })
 
 it("returns a 400 with missing email and password", async () => {
@@ -48,7 +48,7 @@ it("returns a 400 with missing email and password", async () => {
             email: "",
             password: ""
         })
-        .expect(400)
+        .expect(400);
 })
 
 it("Does not allow duplicate emails", async () => {
@@ -58,12 +58,23 @@ it("Does not allow duplicate emails", async () => {
             email: "testing@test.com",
             password: "password"
         })
-        .expect(201)
+        .expect(201);
     await request(app)
         .post('/api/users/signup')
         .send({
             email: "testing@test.com",
             password: "password"
         })
-        .expect(400)
+        .expect(400);
+})
+
+it('sets a cookie after succesful signup', async () => {
+    const response = await request(app)
+        .post('/api/users/signup')
+        .send({
+            email: "testing@test.com",
+            password: "password"
+        })
+        .expect(201);
+    expect(response.get("Set-Cookie")).toBeDefined();
 })
